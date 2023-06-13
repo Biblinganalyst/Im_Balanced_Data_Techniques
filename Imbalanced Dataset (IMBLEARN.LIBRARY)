@@ -1,0 +1,256 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "2524d6a5",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'\\nhttps://www.analyticsvidhya.com/blog/2020/07/10-techniques-to-deal-with-class-imbalance-in-machine-learning/\\n'"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "'''\n",
+    "https://www.analyticsvidhya.com/blog/2020/07/10-techniques-to-deal-with-class-imbalance-in-machine-learning/\n",
+    "'''"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "06a6936a",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting imblearn\n",
+      "  Downloading imblearn-0.0-py2.py3-none-any.whl (1.9 kB)\n",
+      "Collecting imbalanced-learn\n",
+      "  Downloading imbalanced_learn-0.10.1-py3-none-any.whl (226 kB)\n",
+      "     -------------------------------------- 226.0/226.0 kB 1.7 MB/s eta 0:00:00\n",
+      "Requirement already satisfied: scipy>=1.3.2 in c:\\users\\al madina computer\\anaconda3\\lib\\site-packages (from imbalanced-learn->imblearn) (1.9.1)\n",
+      "Requirement already satisfied: numpy>=1.17.3 in c:\\users\\al madina computer\\anaconda3\\lib\\site-packages (from imbalanced-learn->imblearn) (1.23.5)\n",
+      "Requirement already satisfied: threadpoolctl>=2.0.0 in c:\\users\\al madina computer\\anaconda3\\lib\\site-packages (from imbalanced-learn->imblearn) (2.2.0)\n",
+      "Collecting joblib>=1.1.1\n",
+      "  Downloading joblib-1.2.0-py3-none-any.whl (297 kB)\n",
+      "     -------------------------------------- 298.0/298.0 kB 4.6 MB/s eta 0:00:00\n",
+      "Requirement already satisfied: scikit-learn>=1.0.2 in c:\\users\\al madina computer\\anaconda3\\lib\\site-packages (from imbalanced-learn->imblearn) (1.0.2)\n",
+      "Installing collected packages: joblib, imbalanced-learn, imblearn\n",
+      "  Attempting uninstall: joblib\n",
+      "    Found existing installation: joblib 1.1.0\n",
+      "    Uninstalling joblib-1.1.0:\n",
+      "      Successfully uninstalled joblib-1.1.0\n",
+      "Successfully installed imbalanced-learn-0.10.1 imblearn-0.0 joblib-1.2.0\n",
+      "Note: you may need to restart the kernel to use updated packages.\n"
+     ]
+    }
+   ],
+   "source": [
+    "pip install imblearn"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "e9f94858",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import imblearn"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "577e76df",
+   "metadata": {},
+   "source": [
+    " ### Random Under Sampling"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "948160f2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# import library\n",
+    "from imblearn.under_sampling import RandomUnderSampler\n",
+    "\n",
+    "rus = RandomUnderSampler(random_state=42, replacement=True)# fit predictor and target variable\n",
+    "x_rus, y_rus = rus.fit_resample(x, y)\n",
+    "\n",
+    "print('original dataset shape:', Counter(y))\n",
+    "print('Resample dataset shape', Counter(y_rus))\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "15219b5d",
+   "metadata": {},
+   "source": [
+    "### Random Over Sampling with IMB LERAN"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "2505bc83",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# import library\n",
+    "from imblearn.over_sampling import RandomOverSampler\n",
+    "\n",
+    "ros = RandomOverSampler(random_state=42)\n",
+    "\n",
+    "# fit predictor and target variablex_ros, y_ros = ros.fit_resample(x, y)\n",
+    "\n",
+    "print('Original dataset shape', Counter(y))\n",
+    "print('Resample dataset shape', Counter(y_ros))\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f08e463c",
+   "metadata": {},
+   "source": [
+    "### Under Sampling: Tomek Links"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "6d768747",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# import library\n",
+    "from imblearn.under_sampling import TomekLinks\n",
+    "\n",
+    "tl = RandomOverSampler(sampling_strategy='majority')\n",
+    "\n",
+    "# fit predictor and target variable\n",
+    "x_tl, y_tl = ros.fit_resample(x, y)\n",
+    "\n",
+    "print('Original dataset shape', Counter(y))\n",
+    "print('Resample dataset shape', Counter(y_ros))\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "10db3aff",
+   "metadata": {},
+   "source": [
+    "### Synthetic Minority Oversampling Technique (SMOTE)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "41699411",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# import library\n",
+    "from imblearn.over_sampling import SMOTE\n",
+    "\n",
+    "smote = SMOTE()\n",
+    "\n",
+    "# fit predictor and target variable\n",
+    "x_smote, y_smote = smote.fit_resample(x, y)\n",
+    "\n",
+    "print('Original dataset shape', Counter(y))\n",
+    "print('Resample dataset shape', Counter(y_ros))\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "bf97a5e4",
+   "metadata": {},
+   "source": [
+    "### Near Miss"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b3ee64d0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from imblearn.under_sampling import NearMiss\n",
+    "\n",
+    "nm = NearMiss()\n",
+    "\n",
+    "x_nm, y_nm = nm.fit_resample(x, y)\n",
+    "\n",
+    "print('Original dataset shape:', Counter(y))\n",
+    "print('Resample dataset shape:', Counter(y_nm))\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "184f8f7c",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "9b61c4f0",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b122bec0",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5ee3f0be",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.13"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
